@@ -1,11 +1,11 @@
 {
-  "server" : {
+  "server": {
     "port": 9000,
     "caching": true
   },
   "dataSource": {
-    "user": "kotlinuser",
-    "password": "kotlinpass",
+    "user": "jeff.yd",
+    "password": "",
     "jdbcUrl": "jdbc:postgresql://localhost:5432/kotlindb"
   }
 }

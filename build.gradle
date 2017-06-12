@@ -1,22 +1,22 @@
 buildscript {
-  ext.kotlin_version = '1.0.3'
-  ext.shadow_version = '1.2.3'
-  ext.functionale_version = '0.8'
+  ext.kotlin_version = '1.1.2-2'
+  ext.shadow_version = '2.0.0'
+  ext.functionale_version = '1.1'
   ext.kovenant_version = '3.3.0'
-  ext.vertx_version = '3.3.2'
+  ext.vertx_version = '3.4.1'
   ext.fuel_version = '1.3.1'
-  ext.kotson_version = '2.3.0'
-  ext.joda_version = '2.9.4'
-  ext.jackson_version = '2.7.5'
-  ext.hikari_version = '2.4.7'
-  ext.flyway_version = '4.0.3'
-  ext.pgjdbc_version = '9.4.1208.jre7'
+  ext.kotson_version = '2.5.0'
+  ext.joda_version = '2.9.9'
+  ext.logback_version = '1.2.3'
+  ext.slf4j_version = '1.7.25'
+  ext.klutter_version = '1.20.1'
+  ext.jackson_version = '2.8.7'
+  ext.hikari_version = '2.6.2'
+  ext.pgjdbc_version = '42.1.1'
   ext.jbcrypt_version = '0.4.1'
-  ext.kotliquery_version = '1.1.0'
-  ext.kotlintest_version = '1.3.3'
-  ext.logback_version = '1.1.7'
-  ext.slf4j_version = '1.7.21'
-  ext.klutter_version = '1.20.0'
+  ext.flyway_version = '4.2.0'
+  ext.kotliquery_version = '1.1.2'
+  ext.kotlintest_version = '2.0.3'
 
   repositories {
     jcenter()
@@ -31,32 +31,39 @@ buildscript {
 apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'idea'
+
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
+}
 
 repositories {
   jcenter()
 }
 
 dependencies {
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-  compile "org.funktionale:funktionale:$functionale_version"
-  compile "nl.komponents.kovenant:kovenant:$kovenant_version"
-  compile "io.vertx:vertx-core:$vertx_version"
-  compile "io.vertx:vertx-web:$vertx_version"
-  compile "io.vertx:vertx-web-templ-thymeleaf:$vertx_version"
-  compile "com.github.kittinunf.fuel:fuel:$fuel_version"
-  compile "com.github.salomonbrys.kotson:kotson:$kotson_version"
-  compile "joda-time:joda-time:$joda_version"
-  compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
-  compile "org.flywaydb:flyway-core:$flyway_version"
-  compile "com.zaxxer:HikariCP:$hikari_version"
-  compile "org.postgresql:postgresql:$pgjdbc_version"
-  compile "de.svenkubiak:jBCrypt:$jbcrypt_version"
-  compile "com.github.seratch:kotliquery:$kotliquery_version"
+  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+          "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
+          "org.funktionale:funktionale-all:$functionale_version",
+          "nl.komponents.kovenant:kovenant:$kovenant_version",
+          "io.vertx:vertx-core:$vertx_version",
+          "io.vertx:vertx-web:$vertx_version",
+          "io.vertx:vertx-web-templ-thymeleaf:$vertx_version",
+          "com.github.kittinunf.fuel:fuel:$fuel_version",
+          "com.github.salomonbrys.kotson:kotson:$kotson_version",
+          "joda-time:joda-time:$joda_version",
+          "uy.klutter:klutter-vertx3-jdk8:$klutter_version",
+          "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version",
+          "com.zaxxer:HikariCP:$hikari_version",
+          "org.postgresql:postgresql:$pgjdbc_version",
+          "de.svenkubiak:jBCrypt:$jbcrypt_version",
+          "org.flywaydb:flyway-core:$flyway_version",
+          "com.github.seratch:kotliquery:$kotliquery_version"
   testCompile "io.kotlintest:kotlintest:$kotlintest_version"
-  compile "ch.qos.logback:logback-classic:$logback_version"
-  compile "org.slf4j:slf4j-api:$slf4j_version"
-  compile "uy.klutter:klutter-vertx3-jdk8:$klutter_version"
+  runtime "ch.qos.logback:logback-classic:$logback_version",
+          "org.slf4j:slf4j-api:$slf4j_version"
 }
 
 mainClassName = 'io.vertx.core.Launcher'
@@ -72,5 +79,5 @@ def configurationFile = 'conf/development.json'
 run {
   args = ['run', mainVerticleName, "--redeploy=$watchForChange",
           "--launcher-class=$mainClassName", "--on-redeploy=$doOnChange",
-          "-conf $configurationFile"]
+  "-conf $configurationFile"]
 }
